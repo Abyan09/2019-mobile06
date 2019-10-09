@@ -10,13 +10,16 @@ import android.view.MenuItem;
 import id.ac.polinema.fragments.AboutFragment;
 import id.ac.polinema.fragments.BrocaIndexFragment;
 import id.ac.polinema.fragments.MenuFragment;
+import id.ac.polinema.fragments.ResultFragment;
 
 public class MainActivity extends AppCompatActivity implements MenuFragment.OnFragmentInteractionListener,
-        BrocaIndexFragment.OnFragmentInteractionListener{
+        BrocaIndexFragment.OnFragmentInteractionListener,
+		ResultFragment.OnFragmentInteractionListener{
 
 	private MenuFragment menuFragment;
 	private AboutFragment aboutFragment;
     private BrocaIndexFragment brocaIndexFragment;
+	private ResultFragment resultFragment;
 	// Deklarasikan atribut Fragment di sini
 
 	@Override
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.OnFr
 		menuFragment = new MenuFragment();
 		aboutFragment = AboutFragment.newInstance("Moch. Abyan An-nabhany");
         brocaIndexFragment = new BrocaIndexFragment();
+		resultFragment = new ResultFragment();
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, menuFragment)
 				.commit();
@@ -61,6 +65,16 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.OnFr
 
     @Override
     public void onCalculateBrocaIndexClicked(float index) {
-
+		resultFragment.setInformation(String.format("Your ideal weight is %.2f kg", index));
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, resultFragment)
+				.commit();
     }
+
+	@Override
+	public void onTryAgainButtonClicked(String tag) {
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, brocaIndexFragment)
+				.commit();
+	}
 }
